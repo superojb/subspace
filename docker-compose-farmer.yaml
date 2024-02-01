@@ -1,0 +1,23 @@
+# farmer配置文件
+version: "3.7"
+services:
+  farmer:
+    image: ghcr.io/subspace/farmer:gemini-3h-2024-feb-01
+    volumes:
+      - farmer-data:/var/subspace:rw
+    ports:
+      - "0.0.0.0:30533:30533/udp"
+      - "0.0.0.0:30533:30533/tcp"
+    restart: unless-stopped
+    command:
+      [
+        "farm",
+        "--node-rpc-url", "ws://填写node的ip地址:9944",
+        "--listen-on", "/ip4/0.0.0.0/udp/30533/quic-v1",
+        "--listen-on", "/ip4/0.0.0.0/tcp/30533",
+        "--reward-address", "替换自己的收款地址",
+        "path=/var/subspace,size=填写P盘大小"
+      ]
+volumes:
+  node-data:
+  farmer-data:    
